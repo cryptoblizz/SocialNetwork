@@ -40,12 +40,9 @@ def RegistrationView(request):
         emailid = request.POST['emailid']
 
 
-        if not (User.objects.get(username=username)):
-
-            user = User(username=username, password=password, email=emailid)
-            user.save()
-            userprofile = UserProfile(User = user)
-            userprofile.save()
+        if not (User.objects.filter(username=username).exists()):
+            user = User.objects.create_user(username, emailid, password)
+            UserProfile.objects.create(user=user)
 
 
         else:

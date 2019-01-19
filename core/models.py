@@ -8,6 +8,22 @@ class UserProfile(models.Model):
     bio = models.CharField(max_length=300)
     city = models.CharField(max_length=20)
     country = models.CharField(max_length=20)
-    follows = models.ManyToManyField("self", related_name="follows", symmetrical=False)
-    followers = models.ManyToManyField("self", related_name="followers", symmetrical=False)
-    
+    follows = models.ManyToManyField("self", related_name="followers", symmetrical=False)
+
+    def __str__(self):
+        return self.user
+
+
+class Post(models.Model):
+    author = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    content = models.TextField
+    likes = models.IntegerField(default=0)
+    published_date = models.DateTimeField(auto_now_add=True)
+
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    author = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    content = models.TextField
+    published_date = models.DateTimeField(auto_now_add=True)
+
