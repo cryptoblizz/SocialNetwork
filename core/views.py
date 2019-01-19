@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.views.generic import View
 from . import forms
+from .models import UserProfile
 
 
 
@@ -41,7 +42,11 @@ def RegistrationView(request):
 
         if not (User.objects.get(username=username)):
 
-            User.objects.create_user(username, emailid, password)
+            user = User(username=username, password=password, email=emailid)
+            user.save()
+            userprofile = UserProfile(User = user)
+            userprofile.save()
+
 
         else:
 
