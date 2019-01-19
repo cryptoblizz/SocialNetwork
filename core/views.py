@@ -26,7 +26,7 @@ def LoginView(request):
 
 
 def successLogin(request):
-    return redirect('core:user_profile_page',{'user_name': request.user.username})
+    return redirect('core:user_profile_page',user_name=request.user.username)
 
 def RegistrationView(request):
 
