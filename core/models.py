@@ -8,4 +8,6 @@ class UserProfile(models.Model):
     bio = models.CharField(max_length=300)
     city = models.CharField(max_length=20)
     country = models.CharField(max_length=20)
+    follows = models.ManyToManyField("self", related_name="follows", symmetrical=False)
+    followers = models.ManyToManyField("self", related_name="followers", symmetrical=False)
     
