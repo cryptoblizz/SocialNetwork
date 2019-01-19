@@ -23,6 +23,9 @@ def LoginView(request):
             if user.is_active:
                 login(request, user)
                 return redirect('core:login-success')
+        else:
+            error_message = "Wrong Password or Username"
+            return render(request,'core/login.html',{'error_message': error_message})
 
 
 def successLogin(request):
