@@ -38,12 +38,9 @@ def RegistrationView(request):
         password = request.POST['password']
         emailid = request.POST['emailid']
 
-        if not (User.objects.get(username=username)):
 
-            User.objects.create_user(username, emailid, password)
-        else:
-            error_message = "The user already exists!"
-            return render(request, 'core/register.html', {'error_message': error_message})
+        User.objects.create_user(username, emailid, password)
+
 
         return redirect('core:login')
 
