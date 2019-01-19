@@ -45,7 +45,9 @@
             <div class="col col-login mx-auto">
               <div class="text-center mb-6">
                 <!--<img src="./assets/brand/tabler.svg" class="h-6" alt=""> -->
-
+                  {% if error_message %}
+                  <p style="color:red">{{ error_message }}</p>
+                  {% endif %}
               <form class="card" action="" method="post">
                   {% csrf_token %}
                 <div class="card-body p-6">
