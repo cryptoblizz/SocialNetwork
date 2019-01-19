@@ -9,13 +9,14 @@ class UserProfile(models.Model):
     city = models.CharField(max_length=20)
     country = models.CharField(max_length=20)
     follows = models.ManyToManyField("self", related_name="followers", symmetrical=False)
+    #profile_pic=models.ImageField()
 
     def __str__(self):
         return self.user
 
 
 class Post(models.Model):
-    author = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField
     likes = models.IntegerField(default=0)
     published_date = models.DateTimeField(auto_now_add=True)

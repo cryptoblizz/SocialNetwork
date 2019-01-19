@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect, reverse
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.views.generic import View
@@ -26,8 +26,7 @@ def LoginView(request):
 
 
 def successLogin(request):
-    return HttpResponse('Your login was a success!')
-
+    return redirect('core:user_profile_page',{'user_name': request.user.username})
 
 def RegistrationView(request):
 
@@ -52,6 +51,30 @@ def RegistrationView(request):
 
 
         return redirect('core:login')
+
+
+def displayUserProfile(request,user_name):
+    return render(request,"core/profile.html")
+
+def editProfile(request, user_name):
+    user = User.objects.get(username=user_name)
+    if request.method=='POST':
+       user.userprofile.bio = request.POST['bio']
+       if request.POST['password']:
+           user.set_password(request.POST['password'])
+
+       user.userprofile.city = request.POST['city']
+       user.userprofile.country = request.POST['country']
+       user.save()
+       user.userprofile.save()
+       return redirect('core:user_profile_page', {'user_name': request.user.username})
+
+def userLogout(request):
+    logout(request)
+    return redirect('core:login')
+
+
+
 
 
 
