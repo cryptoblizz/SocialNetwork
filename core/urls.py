@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 
+
 app_name = 'core'
 
 urlpatterns=[
@@ -10,5 +11,5 @@ urlpatterns=[
     path('profile/<str:user_name>/', views.displayUserProfile, name='user_profile_page'),
     path('profile/<str:user_name>/edit/',views.editProfile,name = "edit_profile"),
     path('profile/logout/', views.userLogout , name="logout"),
-
+    path('profile/<str:user_name>/follow/', views.userFollow, name="user_follow")
 ]

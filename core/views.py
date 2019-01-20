@@ -57,7 +57,9 @@ def RegistrationView(request):
 
 
 def displayUserProfile(request,user_name):
-    return render(request,"core/profile.html")
+    user = User.objects.get(username=user_name)
+    return render (request, 'core/profile.html', {'user': user})
+
 
 
 def editProfile(request, user_name):
@@ -71,12 +73,20 @@ def editProfile(request, user_name):
        user.userprofile.country = request.POST['country']
        user.save()
        user.userprofile.save()
-       return redirect('core:user_profile_page', {'user_name': request.user.username})
+       return redirect('core:user_profile_page', user_name = user.username)
 
 
 def userLogout(request):
     logout(request)
     return redirect('core:login')
+
+
+def userFollow(request, user_name):
+    user_to_follow = User.objects.get(username=user_name)
+    current_user = User.objects.get(username=request.user.username)
+    current_user.userprofile.follows.add(user_to_follow.userprofile)
+    #current_user.userprofile.save()
+    return redirect('core:user_profile_page', user_name=current_user.username)
 
 
 

@@ -8,7 +8,7 @@ class UserProfile(models.Model):
     bio = models.CharField(max_length=300)
     city = models.CharField(max_length=20)
     country = models.CharField(max_length=20)
-    follows = models.ManyToManyField("self", related_name="followers", symmetrical=False)
+    follows = models.ManyToManyField("self", symmetrical=False)
     #profile_pic=models.ImageField()
 
     def __str__(self):
