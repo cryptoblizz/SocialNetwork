@@ -82,17 +82,18 @@
                   </div>
                 </div>
                 <div class="dropdown">
-                  <a href="#" class="nav-link pr-0 leading-none" data-toggle="dropdown">
+                  <div class="nav-link pr-0 leading-none" data-toggle="dropdown">
                     <span class="avatar" style="background-image: url(./demo/faces/female/25.jpg)"></span>
                     <span class="ml-2 d-none d-lg-block">
                         {% if request.user %}
                       <span class="text-default">{{ request.user.username }}</span>
-                      <span class = "text-default>"><a href="{% url 'core:logout' %}"> Logout</a> </span>
+                      <span class ="text-default"><a href="{% url 'core:logout' %}">Logout</a> </span>
                         {% else %}
                        <p class="text-default"><a href="{% url 'core:login' %}">Login</a></p>
                         {% endif %}
                     </span>
-                  </a>
+                  </div>
+                </div>
                   <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                     <a class="dropdown-item" href="#">
                       <i class="dropdown-icon fe fe-user"></i> Profile
@@ -158,7 +159,7 @@
                     </div>
                   </li>
                   <li class="nav-item dropdown">
-                    <a href="javascript:void(0)" class="nav-link active" data-toggle="dropdown"><i class="fe fe-file"></i> Pages</a>
+                    <a href="javascript:void(0)" class="nav-link active" data-toggle="dropdown"><i class="fe fe-file"></i> Profile</a>
                     <div class="dropdown-menu dropdown-menu-arrow">
                       <a href="./profile.html" class="dropdown-item active">Profile</a>
                       <a href="./login.html" class="dropdown-item ">Login</a>

@@ -59,6 +59,7 @@ def RegistrationView(request):
 def displayUserProfile(request,user_name):
     return render(request,"core/profile.html")
 
+
 def editProfile(request, user_name):
     user = User.objects.get(username=user_name)
     if request.method=='POST':
@@ -71,6 +72,7 @@ def editProfile(request, user_name):
        user.save()
        user.userprofile.save()
        return redirect('core:user_profile_page', {'user_name': request.user.username})
+
 
 def userLogout(request):
     logout(request)
