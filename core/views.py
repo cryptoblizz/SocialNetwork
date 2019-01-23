@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.views.generic import View
 from . import forms
-from .models import UserProfile
+from .models import *
 
 
 
@@ -87,6 +87,18 @@ def userFollow(request, user_name):
     current_user.userprofile.follows.add(user_to_follow.userprofile)
     #current_user.userprofile.save()
     return redirect('core:user_profile_page', user_name=current_user.username)
+
+def create_post(request,user_name):
+    if request.method == "POST":
+        newpost = Post()
+        newpost.author = User.objects.get(username=user_name)
+        newpost.content = request.POST["content"]
+        newpost.save()
+
+        return redirect('core:user_profile_page',user_name=user_name)
+
+
+
 
 
 

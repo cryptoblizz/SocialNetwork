@@ -17,9 +17,12 @@ class UserProfile(models.Model):
 
 class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    content = models.TextField
+    content = models.TextField(null=True)
     likes = models.IntegerField(default=0)
     published_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.content)
 
 
 class Comment(models.Model):
