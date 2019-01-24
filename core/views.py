@@ -29,7 +29,7 @@ def LoginView(request):
 
 
 def successLogin(request):
-    return redirect('core:user_profile_page',user_name=request.user.username)
+    return redirect('core:user_profile_page', user_name = request.user.username)
 
 def RegistrationView(request):
 
@@ -58,7 +58,12 @@ def RegistrationView(request):
 
 def displayUserProfile(request,user_name):
     user = User.objects.get(username=user_name)
-    return render (request, 'core/profile.html', {'user': user})
+    current_user = User.objects.get(username=request.user.username)
+    if current_user.userprofile.follows.filter(user=user).exists():
+        follows = "Unfollow"
+    else:
+        follows = "Follow"
+    return render (request, 'core/profile.html', {'user': user, 'follow': follows})
 
 
 
@@ -86,7 +91,7 @@ def userFollow(request, user_name):
     current_user = User.objects.get(username=request.user.username)
     current_user.userprofile.follows.add(user_to_follow.userprofile)
     #current_user.userprofile.save()
-    return redirect('core:user_profile_page', user_name=current_user.username)
+    return redirect('core:user_profile_page', user_name=user_to_follow.username)
 
 def create_post(request,user_name):
     if request.method == "POST":
@@ -97,9 +102,22 @@ def create_post(request,user_name):
 
         return redirect('core:user_profile_page',user_name=user_name)
 
+def userUnfollow(request, user_name):
+    user_to_unfollow = User.objects.get(username=user_name)
+    current_user = User.objects.get(username=request.user.username)
+    current_user.userprofile.follows.remove(user_to_unfollow.userprofile)
+    return redirect('core:user_profile_page', user_name = user_to_unfollow.username)
 
+def createComment(request, user_name, post_id):
+    if request.method == "POST":
+        post_for_comment = Post.objects.get(id = post_id)
+        Comment.objects.create(author=request.user, post=post_for_comment, content= request.POST['comment'])
+        return redirect('core:user_profile_page', user_name = user_name)
 
-
+def displayFeed(request):
+    current_user = User.objects.get(username=request.user.username).userprofile
+    posts = Post.objects.filter(author=current_user.follows.all().values('user')).order_by('published_date')
+    return render(request, 'core/feed.html', {'user': request.user, 'posts': posts})
 
 
 

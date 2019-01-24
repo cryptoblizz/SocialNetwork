@@ -11,7 +11,9 @@ urlpatterns=[
     path('profile/<str:user_name>/', views.displayUserProfile, name='user_profile_page'),
     path('profile/<str:user_name>/edit/',views.editProfile,name = "edit_profile"),
     path('profile/logout/', views.userLogout , name="logout"),
-    path('profile/<str:user_name>/follow/', views.userFollow, name="user_follow"),
+    path('profile/<str:user_name>/follow/', views.userFollow, name="user_Follow"),
     path('profile/<str:user_name>/create_post',views.create_post,name="create_post"),
-
+    path('profile/<str:user_name>/follow/', views.userUnfollow, name="user_Unfollow"),
+    path('profile/<str:user_name>/<int:post_id>/create_comment',views.createComment , name = "create_comment"),
+    path('profile/feed/',views.displayFeed, name = "user_feed"),
 ]
