@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.views.generic import View
 from . import forms
@@ -29,7 +29,7 @@ def LoginView(request):
 
 
 def successLogin(request):
-    return redirect('core:user_profile_page', user_name = request.user.username)
+    return redirect('core:user_feed', user_name = request.user.username)
 
 def RegistrationView(request):
 
@@ -119,13 +119,18 @@ def createComment(request, user_name, post_id):
 
 def displayFeed(request, user_name):
     current_user = User.objects.get(username=request.user.username)
-    postsum = None
-    for followship in Follow.objects.filter(follower=current_user):
-        postsum = postsum + Post.objects.filter(author=followship.to_follow)
+    postsum = Post.objects.filter(author__in=Follow.objects.filter(follower=current_user).values('to_follow')).order_by('published_date')
 
-    postsum.order_by('published_date')
     return render(request, 'core/feed.html', {'user' : current_user, 'posts' : postsum})
 
+
+def postLike(request, user_name, post_id):
+
+        post_for_comment = Post.objects.get(id = post_id)
+        post_for_comment.likes+=1
+        post_for_comment.save()
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        #return redirect('core:user_profile_page', user_name = user_name)
 
 
 

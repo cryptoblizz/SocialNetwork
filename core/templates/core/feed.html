@@ -87,7 +87,7 @@
                     <span class="ml-2 d-none d-lg-block">
                         {% if request.user %}
                       <span class="text-default">{{ request.user.username }}</span>
-                      <span class ="text-default"><a href="{% url 'core:logout' %}">Logout</a> </span>
+                      <span class ="text-default"><a href="{% url 'core:logout' request.user.username %}">Logout</a> </span>
                         {% else %}
                        <p class="text-default"><a href="{% url 'core:login' %}">Login</a></p>
                         {% endif %}
@@ -138,7 +138,7 @@
               <div class="col-lg order-lg-first">
                 <ul class="nav nav-tabs border-0 flex-column flex-lg-row">
                   <li class="nav-item">
-                    <a href="./index.html" class="nav-link"><i class="fe fe-home"></i> Home</a>
+                    <a href="./index.html" class="nav-link active"><i class="fe fe-home"></i> Home</a>
                   </li>
                   <li class="nav-item">
                     <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"><i class="fe fe-box"></i> Interface</a>
@@ -159,7 +159,7 @@
                     </div>
                   </li>
                   <li class="nav-item dropdown">
-                    <a href="javascript:void(0)" class="nav-link active" data-toggle="dropdown"><i class="fe fe-file"></i> Profile</a>
+                    <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"><i class="fe fe-file"></i> Profile</a>
                     <div class="dropdown-menu dropdown-menu-arrow">
                       <a href="./profile.html" class="dropdown-item active">Profile</a>
                       <a href="./login.html" class="dropdown-item ">Login</a>
@@ -218,7 +218,8 @@
                         <div class="media-object avatar avatar-md mr-4" style="background-image: url(demo/faces/male/16.jpg)"></div>
                         <div class="media-body">
                           <div class="media-heading">
-                            <small class="float-right text-muted">4 min</small>
+
+                            <small class="float-right text-muted"><a href="{% url 'core:post_like' request.user.username post.id %}">Like</a>&nbsp;&nbsp;{{ post.likes }}&nbsp;&nbsp; {{ post.published_date }}</small>
                             <h5>{{ post.author }}</h5>
                           </div>
                           <div>
@@ -227,7 +228,7 @@
                             <div class="input-group">
                         <form action="{% url 'core:create_comment' request.user.username post.id %}" method="post">
                             {% csrf_token %}
-                       <textarea class="form-control" rows="3" name="comment" placeholder="Comment"></textarea>
+                       <textarea class="form-control" name="comment" placeholder="Comment"></textarea>
 
                       <div class="input-group-append">
                         <button type="submit" class="btn btn-secondary">
