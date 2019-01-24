@@ -87,7 +87,7 @@
                     <span class="ml-2 d-none d-lg-block">
                         {% if request.user %}
                       <span class="text-default">{{ request.user.username }}</span>
-                      <span class ="text-default"><a href="{% url 'core:logout' %}">Logout</a> </span>
+                      <span class ="text-default"><a href="{% url 'core:logout' request.user.username %}">Logout</a> </span>
                         {% else %}
                        <p class="text-default"><a href="{% url 'core:login' %}">Login</a></p>
                         {% endif %}
@@ -138,7 +138,7 @@
               <div class="col-lg order-lg-first">
                 <ul class="nav nav-tabs border-0 flex-column flex-lg-row">
                   <li class="nav-item">
-                    <a href="{% url 'core:user_feed' %}" class="nav-link"><i class="fe fe-home"></i> Home</a>
+                    <a href="#" class="nav-link"><i class="fe fe-home"></i> Home</a>
                   </li>
                   <li class="nav-item">
                     <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"><i class="fe fe-box"></i> Interface</a>
