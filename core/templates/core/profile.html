@@ -83,7 +83,7 @@
                 </div>
                 <div class="dropdown">
                   <div class="nav-link pr-0 leading-none" data-toggle="dropdown">
-                    <span class="avatar" style="background-image: url(./demo/faces/female/25.jpg)"></span>
+                    <span class="avatar" style="background-image: url({{ request.user.userprofile.profile_pic.url }})"></span>
                     <span class="ml-2 d-none d-lg-block">
                         {% if request.user %}
                       <span class="text-default">{{ request.user.username }}</span>
@@ -138,7 +138,7 @@
               <div class="col-lg order-lg-first">
                 <ul class="nav nav-tabs border-0 flex-column flex-lg-row">
                   <li class="nav-item">
-                    <a href="#" class="nav-link"><i class="fe fe-home"></i> Home</a>
+                    <a href="{% url 'core:user_feed' request.user.username %}" class="nav-link"><i class="fe fe-home"></i> Home</a>
                   </li>
                   <li class="nav-item">
                     <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"><i class="fe fe-box"></i> Interface</a>
@@ -197,7 +197,7 @@
                 <div class="card card-profile">
                   <div class="card-header" style="background-image: url(demo/photos/eberhard-grossgasteiger-311213-500.jpg);"></div>
                   <div class="card-body text-center">
-                    <img class="card-profile-img" src="demo/faces/male/16.jpg">
+                    <img class="card-profile-img" src="{{ user.userprofile.profile_pic.url }}">
                     <h3 class="mb-3">{{ user.username }}</h3>
                     <h5>{{ user.userprofile.city }}, {{ user.userprofile.country }}</h5>
                     <p class="mb-4">
@@ -215,6 +215,7 @@
                               {% endif %}
 
                       {% endif %}
+                    <a href="#">See Followers</a>
                   </div>
                 </div>
                 {% if user == request.user %}
@@ -227,11 +228,12 @@
                         {% csrf_token %}
                       <div class="row">
                         <div class="col-auto">
-                          <span class="avatar avatar-xl" style="background-image: url(demo/faces/female/9.jpg)"></span>
+                          <span class="avatar avatar-xl" style="background-image: url({{ user.userprofile.profile_pic.url }})"></span>
                         </div>
                         <div class="col">
 
                       </div>
+
                       <div class="form-group">
                         <label class="form-label">Bio</label>
                         <textarea class="form-control" rows="5" name="bio">{{ request.user.userprofile.bio }}</textarea>
@@ -534,7 +536,7 @@
                       {% for post in user.post_set.all %}
                     <li class="list-group-item py-5">
                       <div class="media">
-                        <div class="media-object avatar avatar-md mr-4" style="background-image: url(demo/faces/male/16.jpg)"></div>
+                        <div class="media-object avatar avatar-md mr-4" style="background-image: url({{ user.userprofile.profile_pic.url }})"></div>
                         <div class="media-body">
                           <div class="media-heading">
                             <small class="float-right text-muted"><a href="{% url 'core:post_like' request.user.username post.id %}">Like</a>&nbsp;&nbsp;{{ post.likes }}&nbsp;&nbsp; {{ post.published_date }}</small>
@@ -558,7 +560,7 @@
                           <ul class="media-list">
                               {% for comment in post.comment_set.all %}
                             <li class="media mt-4">
-                              <div class="media-object avatar mr-4" style="background-image: url(demo/faces/female/17.jpg)"></div>
+                              <div class="media-object avatar mr-4" style="background-image: url({{ comment.author.userprofile.profile_pic.url }})"></div>
                               <div class="media-body">
                                 <strong>{{ comment.author }}</strong>
                                 {{ comment.content }}

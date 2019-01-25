@@ -44,6 +44,7 @@ def RegistrationView(request):
 
         if not (User.objects.filter(username=username).exists()):
             user = User.objects.create_user(username, emailid, password)
+            Follow.objects.create(to_follow=user, follower=user)
             UserProfile.objects.create(user=user)
 
 
@@ -76,6 +77,8 @@ def editProfile(request, user_name):
 
        user.userprofile.city = request.POST['city']
        user.userprofile.country = request.POST['country']
+       if request.FILES['profilepic']:
+           user.userprofile.profile_pic = request.FILES['profilepic']
        user.save()
        user.userprofile.save()
        return redirect('core:user_profile_page', user_name = user.username)
@@ -101,8 +104,9 @@ def create_post(request,user_name):
         newpost.author = User.objects.get(username=user_name)
         newpost.content = request.POST["content"]
         newpost.save()
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-        return redirect('core:user_profile_page',user_name=user_name)
+        #return redirect('core:user_profile_page',user_name=user_name)
 
 def userUnfollow(request, user_name):
     user_to_unfollow = User.objects.get(username=user_name)
@@ -115,7 +119,9 @@ def createComment(request, user_name, post_id):
     if request.method == "POST":
         post_for_comment = Post.objects.get(id = post_id)
         Comment.objects.create(author=request.user, post=post_for_comment, content= request.POST['comment'])
-        return redirect('core:user_profile_page', user_name = user_name)
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+        #return redirect('core:user_profile_page', user_name = user_name)
 
 def displayFeed(request, user_name):
     current_user = User.objects.get(username=request.user.username)

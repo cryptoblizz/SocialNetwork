@@ -9,7 +9,7 @@ class UserProfile(models.Model):
     city = models.CharField(max_length=20)
     country = models.CharField(max_length=20)
 
-    #profile_pic=models.ImageField()
+    profile_pic=models.ImageField(upload_to='profile_pics/', default='profile_pics/None/default.jpg')
 
     def __str__(self):
         return self.user.username
