@@ -79,6 +79,8 @@ def editProfile(request, user_name):
        user.userprofile.country = request.POST['country']
        if request.FILES['profilepic']:
            user.userprofile.profile_pic = request.FILES['profilepic']
+       if request.FILES['coverpic']:
+           user.userprofile.cover_pic = request.FILES['coverpic']
        user.save()
        user.userprofile.save()
        return redirect('core:user_profile_page', user_name = user.username)
