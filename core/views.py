@@ -135,8 +135,11 @@ def displayFeed(request, user_name):
 def postLike(request, user_name, post_id):
 
         post_for_comment = Post.objects.get(id = post_id)
-        post_for_comment.likes+=1
-        post_for_comment.save()
+        user_like = User.objects.get(username=user_name)
+        if user_like not in post_for_comment.likes_user.all():
+            post_for_comment.likes += 1
+            post_for_comment.likes_user.add(user_like)
+            post_for_comment.save()
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         #return redirect('core:user_profile_page', user_name = user_name)
 
