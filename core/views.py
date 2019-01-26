@@ -138,6 +138,10 @@ def postLike(request, user_name, post_id):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         #return redirect('core:user_profile_page', user_name = user_name)
 
+def show_followers(request,user_name):
+    follow_list = Follow.objects.filter(to_follow__username=user_name)
+    return render(request,"core/followers.html",{"list": follow_list})
+
 
 
 

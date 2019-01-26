@@ -9,7 +9,8 @@ class UserProfile(models.Model):
     city = models.CharField(max_length=20)
     country = models.CharField(max_length=20)
 
-    profile_pic=models.ImageField(upload_to='profile_pics/', default='profile_pics/None/default.jpg')
+    profile_pic = models.ImageField(upload_to='profile_pics/', default='profile_pics/None/default.jpg')
+    cover_pic = models.ImageField(upload_to='cover_pics/', default='cover_pics/None/cover_default.jpg')
 
     def __str__(self):
         return self.user.username

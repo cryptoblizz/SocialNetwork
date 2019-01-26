@@ -215,7 +215,7 @@
                               {% endif %}
 
                       {% endif %}
-                    <a href="#">See Followers</a>
+                    <a href="{% url 'core:see_followers' user.username %}">See Followers</a>
                   </div>
                 </div>
                 {% if user == request.user %}
