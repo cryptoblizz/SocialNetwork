@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core.apps.CoreConfig'
+    'core.apps.CoreConfig',
+    'channels',
+    'chat.apps.ChatConfig'
 ]
 
 MIDDLEWARE = [
@@ -69,6 +71,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'SocialNetwork.wsgi.application'
+ASGI_APPLICATION = 'SocialNetwork.routing.application'
 
 
 # Database
@@ -125,3 +128,12 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG':{
+            "hosts": [('127.0.0.1', 6379)],
+        }
+    }
+}
